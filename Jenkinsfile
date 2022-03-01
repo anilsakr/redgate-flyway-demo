@@ -60,7 +60,7 @@ stages {
 							#!/bin/bash
 							echo "The migrations directory is ${env.flywayLocations}"
 							cd '/var/lib/jenkins/workspace/AdventureWorks_Flyway_main'
-							flyway clean migrate info \"${env.flywayJDBC}\" \"${env.flywayLocations}\" -user=\"${env.databaseUsername}\" -password=\"${env.databasePassword}\"
+							\"flyway clean migrate info\" \"${env.flywayJDBC}\" \"${env.flywayLocations}\" -user=\"${env.databaseUsername}\" -password=\"${env.databasePassword}\"
 							""")
 
 						echo "Status of Running CI build: $buildStatus"
