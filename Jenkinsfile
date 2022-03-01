@@ -55,6 +55,7 @@ stages {
 					else {
 
 						echo "Running Flyway Build Using Username and Password"
+						sh "chmod +x -R ${env.WORKSPACE}/_Automation/Flyway_BuildValidation.sh"
 						sh "${WORKSPACE}/_Automation/Flyway_BuildValidation.sh"
 
 					}
