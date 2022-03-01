@@ -13,7 +13,7 @@ pipeline {
 			pollSCM('') // GIT can be polled every minute for changes, simply insert * * * * * - This has been disabled for testing, therefore manually trigger the pipeline run - Best Practice - GIT Repo to inform Jenkins when a PUSH request is made to preferred branch.
 		}
 stages {
-        stage('Build') {:q
+        stage('Build') {
 			environment {
 				databaseHost = "database-1.cjwkywqzgyd0.ap-south-1.rds.amazonaws.com" //Database Host Address for Build Database
 				databasePort = "1433" //Database Port Address for Build Database
