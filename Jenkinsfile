@@ -56,7 +56,7 @@ stages {
 
 						echo "Running Flyway Build Using Username and Password"
 						def buildStatus 
-						buildStatus = sh(returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: './Test/_Automation/Flyway_BuildValidation.sh')
+						buildStatus = sh(returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: './_Automation/Flyway_BuildValidation.sh')
 
 						echo "Status of Running CI build: $buildStatus"
 						if (buildStatus != 0) { error('Running CI build failed') }
