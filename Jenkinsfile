@@ -5,7 +5,8 @@ pipeline {
     agent any
     environment {
 	EXAMPLEVARIABLE = '1.3.0' //Can be used in both this script and PowerShell. Syntax is as follows ${env:EXAMPLEVARIABLE} to use within the PowerShell script
-	buildDirectory = "/var/lib/Redgate/Build/AdventureWorks/Build-${BUILD_NUMBER}" //Directory location for build files to be written to
+	//buildDirectory = "/var/lib/Redgate/Build/AdventureWorks/Build-${BUILD_NUMBER}" //Directory location for build files to be written to
+	buildDirectory = "/var/lib/jenkins/workspace/AdventureWorks_Flyway_main/Test"
 	releaseName = "Build_${env.BUILD_NUMBER}"
        }
 	   triggers {
@@ -27,7 +28,7 @@ stages {
             steps {
                 echo 'Carrying Out Build Activities'
 				
-				dir("${env.buildDirectory}") {
+				dir("") {
 						checkout scm //Checkout latest changes from GIT to Build Directory variable, as set in global evironment variable section.
 						}
 						
