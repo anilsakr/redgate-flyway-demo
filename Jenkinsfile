@@ -5,7 +5,7 @@ pipeline {
     agent any
     environment {
 	EXAMPLEVARIABLE = '1.3.0' //Can be used in both this script and PowerShell. Syntax is as follows ${env:EXAMPLEVARIABLE} to use within the PowerShell script
-	buildDirectory = "C:\\Build\\Jenkins\\Eastwind\\Build-${BUILD_NUMBER}" //Directory location for build files to be written to
+	buildDirectory = "/var/lib/Redgate/Build/AdventureWorks/Build-${BUILD_NUMBER}" //Directory location for build files to be written to
 	releaseName = "Build_${env.BUILD_NUMBER}"
        }
 	   triggers {
