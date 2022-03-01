@@ -55,7 +55,7 @@ stages {
 					else {
 
 						echo "Running Flyway Build Using Username and Password"
-						sh "${env.buildDirectory}/_Automation/Flyway_BuildValidation.sh"
+						sh "${WORKSPACE}/_Automation/Flyway_BuildValidation.sh"
 
 					}
 
