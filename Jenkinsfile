@@ -41,7 +41,10 @@ stages {
 
 					echo "Running Flyway Build Using Intergrated Security"
 					def buildStatus //Define Variable to capture script outcome status and assign it below
-					buildStatus = sh returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: "flyway clean migrate info ${env.flywayJDBC};integratedSecurity=true ${env.flywayLocations}"
+					buildStatus = sh returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: """
+						#!/bin/bash
+						flyway clean migrate info ${env.flywayJDBC};integratedSecurity=true ${env.flywayLocations}
+						"""
 				
 					echo "Status of Running CI build: $buildStatus"
        				if (buildStatus != 0) { error('Running CI build failed') }
@@ -53,7 +56,10 @@ stages {
 
 						echo "Running Flyway Build Using Username and Password"
 						def buildStatus 
-						buildStatus = sh returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: "flyway clean migrate info ${env.flywayJDBC} ${env.flywayLocations} -user=\"${env.databaseUsername}\" -password=\"${env.databasePassword}\" "
+						buildStatus = sh returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: """
+							#!/bin/bash
+							flyway clean migrate info ${env.flywayJDBC} ${env.flywayLocations} -user=\"${env.databaseUsername}\" -password=\"${env.databasePassword}\"
+							"""
 						
 						echo "Status of Running CI build: $buildStatus"
 						if (buildStatus != 0) { error('Running CI build failed') }
