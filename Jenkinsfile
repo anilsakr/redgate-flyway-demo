@@ -28,7 +28,7 @@ stages {
             steps {
                 echo 'Carrying Out Build Activities'
 				
-				dir("") {
+				dir("/var/lib/jenkins/workspace/AdventureWorks_Flyway_main/") {
 						checkout scm //Checkout latest changes from GIT to Build Directory variable, as set in global evironment variable section.
 						}
 						
