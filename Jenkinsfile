@@ -56,11 +56,12 @@ stages {
 
 						echo "Running Flyway Build Using Username and Password"
 						def buildStatus 
-						buildStatus = sh returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: """
+						buildStatus = sh (returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: """
 							#!/bin/bash
 							flyway clean migrate info ${env.flywayJDBC} ${env.flywayLocations} -user=\"${env.databaseUsername}\" -password=\"${env.databasePassword}\"
-							"""
-						
+							""")
+
+						buildStatus = buildStatus.trim()
 						echo "Status of Running CI build: $buildStatus"
 						if (buildStatus != 0) { error('Running CI build failed') }
 
