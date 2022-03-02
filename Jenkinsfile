@@ -57,8 +57,7 @@ stages {
 							 withEnv(['PATH+EXTRA=/usr/local/bin']) {
 						echo "Running Flyway Build Using Username and Password"
 						def buildStatus 
-						buildStatus = sh(returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: """
-							#!/bin/bash
+						buildStatus = sh(returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: """#!/bin/bash
 							echo "The migrations directory is ${env.flywayLocations}"
 							cd '${env.buildDirectory}/Test'
 							echo "PATH values currently are $PATH"
