@@ -53,7 +53,7 @@ stages {
 					}
 
 					else {
-
+							 withEnv(['PATH+EXTRA=/usr/local/bin']) {
 						echo "Running Flyway Build Using Username and Password"
 						def buildStatus 
 						buildStatus = sh(returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: """
@@ -65,7 +65,7 @@ stages {
 
 						echo "Status of Running CI build: $buildStatus"
 						if (buildStatus != 0) { error('Running CI build failed') }
-
+							 }
 					}
 
 				}
