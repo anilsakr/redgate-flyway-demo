@@ -22,7 +22,7 @@ stages {
 				databaseUsername = "admin" //Add Username If Applicable
 				databasePassword = "admin1234" //Add Password If Applicable. For security, this could be entered within Jenkins credential manager and called.
 				flywayJDBC = "-url=jdbc:sqlserver://${env.databaseHost}:${env.databasePort};databaseName=${env.databaseName}" //Add ;integratedSecurity=true to the end of this string if you do not require a Username/Password - Add ;instanceName=$(env.databaseinstance) to the end of this string if you have a named instance you'd like to use
-				flywayLocations = "-locations=\"${env.buildDirectory}/Test/migrations\"" //This is the location of the local cloned GIT repo. {env.WORKSPACE} refers to the Jenkins Agent workspace area. It might be necessary to add some sub-folders to point to the migrations folder
+				flywayLocations = "-locations=\"${env.buildDirectory}/Test\"" //This is the location of the local cloned GIT repo. {env.WORKSPACE} refers to the Jenkins Agent workspace area. It might be necessary to add some sub-folders to point to the migrations folder
 
 			}	
             steps {
@@ -59,7 +59,8 @@ stages {
 						buildStatus = sh(returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: """
 							#!/bin/bash
 							echo "The migrations directory is ${env.flywayLocations}"
-							/usr/local/bin/flyway -configFiles=\"${env.buildDirectory}/Flyway_Build.conf\" clean migrate info
+							cd ${env.flywayLocations}
+							flyway -configFiles=\"${env.buildDirectory}/Flyway_Build.conf\" clean migrate info
 							""")
 
 						echo "Status of Running CI build: $buildStatus"
