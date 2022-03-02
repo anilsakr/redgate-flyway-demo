@@ -60,8 +60,7 @@ stages {
 						buildStatus = sh(returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: """#!/bin/bash
 							echo "The migrations directory is ${env.flywayLocations}"
 							cd '${env.buildDirectory}/Test'
-							echo "PATH values currently are $PATH"
-							/home/ec2-user/flyway-8.5.1/flyway -configFiles=\"Flyway_Build.conf\" clean migrate info
+							flyway -configFiles=\"Flyway_Build.conf\" clean migrate info
 							""")
 
 						echo "Status of Running CI build: $buildStatus"
