@@ -8,6 +8,7 @@ pipeline {
 	//buildDirectory = "/var/lib/Redgate/Build/AdventureWorks/Build-${BUILD_NUMBER}" //Directory location for build files to be written to
 	buildDirectory = "/home/Redgate/Build/Build-${BUILD_NUMBER}"
 	releaseName = "Build_${env.BUILD_NUMBER}"
+	PATH = "/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/ec2-user/.local/bin:/home/ec2-user/bin"
        }
 	   triggers {
 			pollSCM('') // GIT can be polled every minute for changes, simply insert * * * * * - This has been disabled for testing, therefore manually trigger the pipeline run - Best Practice - GIT Repo to inform Jenkins when a PUSH request is made to preferred branch.
