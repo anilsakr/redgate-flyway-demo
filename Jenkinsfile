@@ -8,7 +8,7 @@ pipeline {
 	//buildDirectory = "/var/lib/Redgate/Build/AdventureWorks/Build-${BUILD_NUMBER}" //Directory location for build files to be written to
 	buildDirectory = "/home/Redgate/Build/Build-${BUILD_NUMBER}"
 	releaseName = "Build_${env.BUILD_NUMBER}"
-	PATH = "/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/ec2-user/.local/bin:/home/ec2-user/bin"
+	PATH = "/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/ec2-user/.local/bin:/home/ec2-user/bin:/home/ec2-user/flyway-8.5.1"
        }
 	   triggers {
 			pollSCM('') // GIT can be polled every minute for changes, simply insert * * * * * - This has been disabled for testing, therefore manually trigger the pipeline run - Best Practice - GIT Repo to inform Jenkins when a PUSH request is made to preferred branch.
@@ -61,7 +61,7 @@ stages {
 							echo "The migrations directory is ${env.flywayLocations}"
 							cd '${env.buildDirectory}/Test'
 							echo "PATH values currently are $PATH"
-							flyway -configFiles=\"${env.buildDirectory}/Flyway_Build.conf\" clean migrate info
+							/home/ec2-user/flyway-8.5.1/flyway -configFiles=\"Flyway_Build.conf\" clean migrate info
 							""")
 
 						echo "Status of Running CI build: $buildStatus"
