@@ -59,8 +59,7 @@ stages {
 						buildStatus = sh(returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: """
 							#!/bin/bash
 							echo "The migrations directory is ${env.flywayLocations}"
-							cd '/var/lib/jenkins/workspace/AdventureWorks_Flyway_main'
-							flyway clean migrate info \"${env.flywayJDBC}\" \"${env.flywayLocations}\" -user=\"${env.databaseUsername}\" -password=\"${env.databasePassword}\"
+							/usr/local/bin/flyway -configFiles=\"${env.buildDirectory}/Flyway_Build.conf\" clean migrate info
 							""")
 
 						echo "Status of Running CI build: $buildStatus"
