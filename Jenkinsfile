@@ -38,22 +38,7 @@ stages {
 				echo "Running Flyway Build Script"
 				
 				script {				
-					if (env.databaseUsername == null ) { //If a Database Username is not passed in as an Environmental Variable, used Integrated Security
 
-					echo "Running Flyway Build Using Intergrated Security"
-					def buildStatus //Define Variable to capture script outcome status and assign it below
-					buildStatus = sh returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: """
-						#!/bin/bash
-						flyway clean migrate info ${env.flywayJDBC};integratedSecurity=true ${env.flywayLocations}
-						"""
-				
-					echo "Status of Running CI build: $buildStatus"
-       				if (buildStatus != 0) { error('Running CI build failed') }
-
-
-					}
-
-					else {
 						echo "Running Flyway Build Using Username and Password"
 						def buildStatus 
 						buildStatus = sh(returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: """#!/bin/bash
@@ -64,8 +49,6 @@ stages {
 
 						echo "Status of Running CI build: $buildStatus"
 						if (buildStatus != 0) { error('Running CI build failed') }
-						
-					}
 
 				}
 				
@@ -90,23 +73,8 @@ stages {
 								
 								echo "Running Flyway Production Script"
 				
-				script {				
-					if (env.databaseUsername == null ) { //If a Database Username is not passed in as an Environmental Variable, used Integrated Security
+				script 	{			
 
-					echo "Running Flyway Build Using Intergrated Security"
-					def buildStatus //Define Variable to capture script outcome status and assign it below
-					buildStatus = sh returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: """
-						#!/bin/bash
-						flyway clean migrate info ${env.flywayJDBC};integratedSecurity=true ${env.flywayLocations}
-						"""
-				
-					echo "Status of Running CI build: $buildStatus"
-       				if (buildStatus != 0) { error('Running CI build failed') }
-
-
-					}
-
-					else {
 						echo "Running Flyway Build Using Username and Password"
 						def buildStatus 
 						buildStatus = sh(returnStatus: true, label: "Run Flyway Production Process Against: ${env.DatabaseName}", script: """#!/bin/bash
@@ -117,10 +85,8 @@ stages {
 
 						echo "Status of Running CI build: $buildStatus"
 						if (buildStatus != 0) { error('Running CI build failed') }
-						
-					}
 
-				}
+							}
 				
             }
         }	
