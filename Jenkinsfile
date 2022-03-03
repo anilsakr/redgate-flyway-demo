@@ -59,7 +59,7 @@ stages {
 						buildStatus = sh(returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: """#!/bin/bash
 							echo "The migrations directory is ${env.flywayLocations}"
 							cd '${env.buildDirectory}/Test'
-							flyway -configFiles=\"Flyway_Build.conf\" info
+							flyway -configFiles=\"Flyway_${env.STAGE_NAME}.conf\" info
 							""")
 
 						echo "Status of Running CI build: $buildStatus"
@@ -112,7 +112,7 @@ stages {
 						buildStatus = sh(returnStatus: true, label: "Run Flyway Production Process Against: ${env.DatabaseName}", script: """#!/bin/bash
 							echo "The migrations directory is ${env.flywayLocations}"
 							cd '${env.buildDirectory}/Test'
-							flyway -configFiles=\"Flyway_Production.conf\" migrate info
+							flyway -configFiles=\"Flyway_${env.STAGE_NAME}.conf\" migrate info
 							""")
 
 						echo "Status of Running CI build: $buildStatus"
