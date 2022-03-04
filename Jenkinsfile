@@ -20,8 +20,8 @@ stages {
 				databasePort = "1433" //Database Port Address for Build Database
 				databaseInstance = "" //Optional - Database Instance Address for Build Database
 				databaseName = "AdventureWorks_${env.STAGE_NAME}" //Build Database Name - {env.STAGE_NAME} will take the active stage name to append to DB name
-				databaseUsername = "admin" //Add Username If Applicable - This is redundant if config file is used
-				databasePassword = "admin1234" //Add Password If Applicable. For security, this could be entered within Jenkins credential manager and called. - This is redundant if config file is used
+				databaseUsername = "" //Add Username If Applicable - This is redundant if config file is used
+				databasePassword = "" //Add Password If Applicable. For security, this could be entered within Jenkins credential manager and called. - This is redundant if config file is used
 				flywayJDBC = "-url=jdbc:sqlserver://${env.databaseHost}:${env.databasePort};databaseName=${env.databaseName}" //Add ;integratedSecurity=true to the end of this string if you do not require a Username/Password - Add ;instanceName=$(env.databaseinstance) to the end of this string if you have a named instance you'd like to use
 				flywayLocations = "-locations=filesystem:migrations" //This is the location of the local cloned GIT repo. {env.WORKSPACE} refers to the Jenkins Agent workspace area. It might be necessary to add some sub-folders to point to the migrations folder
 
@@ -44,7 +44,7 @@ stages {
 						buildStatus = sh(returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: """#!/bin/bash
 							echo "The migrations directory is ${env.flywayLocations}"
 							cd '${env.buildDirectory}/Test'
-							flyway -configFiles=\"Flyway_${env.STAGE_NAME}.conf\" info
+							flyway info '${env.flywayJDBC}' '${env.flywayLocations}' -user='${env.databaseUsername}' -password='${env.databasePassword}'
 							""")
 
 						echo "Status of Running CI build: $buildStatus"
@@ -60,8 +60,8 @@ stages {
 					databasePort = "1433" //Database Port Address for Build Database
 					databaseInstance = "" //Optional - Database Instance Address for Build Database
 					databaseName = "AdventureWorks_${env.STAGE_NAME}" //Build Database Name - {env.STAGE_NAME} will take the active stage name to append to DB name
-					databaseUsername = "admin" //Add Username If Applicable
-					databasePassword = "admin1234" //Add Password If Applicable. For security, this could be entered within Jenkins credential manager and called.
+					databaseUsername = "" //Add Username If Applicable
+					databasePassword = "" //Add Password If Applicable. For security, this could be entered within Jenkins credential manager and called.
 					flywayJDBC = "-url=jdbc:sqlserver://${env.databaseHost}:${env.databasePort};databaseName=${env.databaseName}" //Add ;integratedSecurity=true to the end of this string if you do not require a Username/Password - Add ;instanceName=$(env.databaseinstance) to the end of this string if you have a named instance you'd like to use
 					flywayLocations = "-locations=filesystem:migrations" //This is the location of the local cloned GIT repo. {env.WORKSPACE} refers to the Jenkins Agent workspace area. It might be necessary to add some sub-folders to point to the migrations folder
 
