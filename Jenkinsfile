@@ -42,9 +42,11 @@ stages {
 						echo "Running Flyway Build Using Username and Password"
 						def buildStatus 
 						buildStatus = sh(returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: """#!/bin/bash
-							echo "The migrations directory is ${env.flywayLocations}"
-							echo "This is the command to run - flyway info '${env.flywayJDBC}' '${env.flywayLocations}' '-user=${env.databaseUsername}' '-password=${env.databasePassword}'"
+
+							echo "This is the Flyway Command About to Run: flyway info '${env.flywayJDBC}' '${env.flywayLocations}' '-user=${env.databaseUsername}' '-password=${env.databasePassword}'"
+
 							cd '${env.buildDirectory}/Test'
+
 							flyway info '${env.flywayJDBC}' '${env.flywayLocations}' '-user=${env.databaseUsername}' '-password=${env.databasePassword}'
 							""")
 
@@ -61,8 +63,8 @@ stages {
 					databasePort = "1433" //Database Port Address for Build Database
 					databaseInstance = "" //Optional - Database Instance Address for Build Database
 					databaseName = "AdventureWorks_${env.STAGE_NAME}" //Build Database Name - {env.STAGE_NAME} will take the active stage name to append to DB name
-					databaseUsername = "" //Add Username If Applicable
-					databasePassword = "" //Add Password If Applicable. For security, this could be entered within Jenkins credential manager and called.
+					databaseUsername = "admin" //Add Username If Applicable
+					databasePassword = "admin1234" //Add Password If Applicable. For security, this could be entered within Jenkins credential manager and called.
 					flywayJDBC = "-url=jdbc:sqlserver://${env.databaseHost}:${env.databasePort};databaseName=${env.databaseName}" //Add ;integratedSecurity=true to the end of this string if you do not require a Username/Password - Add ;instanceName=$(env.databaseinstance) to the end of this string if you have a named instance you'd like to use
 					flywayLocations = "-locations=filesystem:migrations" //This is the location of the local cloned GIT repo. {env.WORKSPACE} refers to the Jenkins Agent workspace area. It might be necessary to add some sub-folders to point to the migrations folder
 
@@ -79,9 +81,12 @@ stages {
 						echo "Running Flyway Build Using Username and Password"
 						def buildStatus 
 						buildStatus = sh(returnStatus: true, label: "Run Flyway Production Process Against: ${env.DatabaseName}", script: """#!/bin/bash
-							echo "The migrations directory is ${env.flywayLocations}"
+
+							echo "This is the Flyway Command About to Run: flyway migrate info '${env.flywayJDBC}' '${env.flywayLocations}' '-user=${env.databaseUsername}' '-password=${env.databasePassword}'"
+
 							cd '${env.buildDirectory}/Test'
-							flyway -configFiles=\"Flyway_${env.STAGE_NAME}.conf\" migrate info
+
+							flyway migrate info '${env.flywayJDBC}' '${env.flywayLocations}' '-user=${env.databaseUsername}' '-password=${env.databasePassword}'
 							""")
 
 						echo "Status of Running CI build: $buildStatus"
