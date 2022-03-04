@@ -48,7 +48,7 @@ stages {
 
 							cd '${env.buildDirectory}/Test'
 
-							flyway info '${env.flywayJDBC}' '${env.flywayLocations}' '-user=${env.databaseUsername}' '-password=${env.databasePassword}'
+							flyway clean migrate info '${env.flywayJDBC}' '${env.flywayLocations}' '-user=${env.databaseUsername}' '-password=${env.databasePassword}'
 							""")
 
 						echo "Status of Running CI build: $buildStatus"
