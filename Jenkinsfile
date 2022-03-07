@@ -68,9 +68,11 @@ stages {
 					databasePassword = "admin1234" //Add Password If Applicable. For security, this could be entered within Jenkins credential manager and called.
 					flywayJDBC = "-url=jdbc:sqlserver://${env.databaseHost}:${env.databasePort};databaseName=${env.databaseName}" //Add ;integratedSecurity=true to the end of this string if you do not require a Username/Password - Add ;instanceName=$(env.databaseinstance) to the end of this string if you have a named instance you'd like to use
 					flywayLocations = "-locations=filesystem:migrations" //This is the location of the local cloned GIT repo. {env.WORKSPACE} refers to the Jenkins Agent workspace area. It might be necessary to add some sub-folders to point to the migrations folder
-
-				}	
-            steps {
+					}
+				input {
+					message "Do you want to proceed for production deployment?"
+					}	
+				steps {
                 echo 'Carrying Out Production Migration Activities'
 						
 								echo "Current stage is - ${env.STAGE_NAME}"
