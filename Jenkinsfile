@@ -44,7 +44,7 @@ stages {
 						def buildStatus 
 						buildStatus = sh(returnStatus: true, label: "Run Flyway Build Process Against: ${env.DatabaseName}", script: """#!/bin/bash
 
-							echo "This is the Flyway Command About to Run: flyway info '${env.flywayJDBC}' '${env.flywayLocations}' '-user=${env.databaseUsername}' '-password=${env.databasePassword}'"
+							echo "Running Flyway Build Commands on: '${env.flywayJDBC}' '${env.flywayLocations}'"
 
 							cd '${env.buildDirectory}/Test'
 
@@ -83,7 +83,7 @@ stages {
 						def buildStatus 
 						buildStatus = sh(returnStatus: true, label: "Run Flyway Production Process Against: ${env.DatabaseName}", script: """#!/bin/bash
 
-							echo "This is the Flyway Command About to Run: flyway migrate info '${env.flywayJDBC}' '${env.flywayLocations}' '-user=${env.databaseUsername}' '-password=${env.databasePassword}'"
+							echo "Running Flyway Migrate Commands on: '${env.flywayJDBC}' '${env.flywayLocations}'"
 
 							cd '${env.buildDirectory}/Test'
 
