@@ -8,7 +8,7 @@ CREATE TABLE [HumanResources].[Department]
 GO
 ALTER TABLE [HumanResources].[Department] ADD CONSTRAINT [PK_Department_DepartmentID] PRIMARY KEY CLUSTERED ([DepartmentID])
 GO
-CREATE NONCLUSTERED INDEX [AK_Dept_Name] ON [HumanResources].[Department] ([DepartmentID])
+CREATE NONCLUSTERED INDEX [AK_Department_Id] ON [HumanResources].[Department] ([DepartmentID])
 GO
 EXEC sp_addextendedproperty N'MS_Description', N'Lookup table containing the departments within the Adventure Works Cycles company.', 'SCHEMA', N'HumanResources', 'TABLE', N'Department', NULL, NULL
 GO

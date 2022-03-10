@@ -1,13 +1,19 @@
-SET QUOTED_IDENTIFIER ON
+﻿SET NUMERIC_ROUNDABORT OFF
 GO
-SET ANSI_NULLS ON
+SET ANSI_PADDING, ANSI_WARNINGS, CONCAT_NULL_YIELDS_NULL, ARITHABORT, QUOTED_IDENTIFIER, ANSI_NULLS ON
+GO
+PRINT N'Dropping index [AK_Dept_Name] from [HumanResources].[Department]'
+GO
+DROP INDEX [AK_Dept_Name] ON [HumanResources].[Department]
+GO
+PRINT N'Altering [dbo].[InsertUpdate]'
 GO
 -- =============================================
 -- Author:		Anirban
 -- Create date: 2020-03-10
 -- Description:	Procedure to insert and update Department data 
 -- =============================================
-CREATE   procedure [dbo].[InsertUpdate]	  
+ALTER   procedure [dbo].[InsertUpdate]	  
 (   
    @dept_id INTEGER = NULL,
    @name NVARCHAR(100),  
@@ -44,4 +50,16 @@ BEGIN
 		return -1
 	END CATCH
 END
+GO
+PRINT N'Refreshing [HumanResources].[vEmployeeDepartment]'
+GO
+EXEC sp_refreshview N'[HumanResources].[vEmployeeDepartment]'
+GO
+PRINT N'Refreshing [HumanResources].[vEmployeeDepartmentHistory]'
+GO
+EXEC sp_refreshview N'[HumanResources].[vEmployeeDepartmentHistory]'
+GO
+PRINT N'Creating index [AK_Department_Id] on [HumanResources].[Department]'
+GO
+CREATE NONCLUSTERED INDEX [AK_Department_Id] ON [HumanResources].[Department] ([DepartmentID])
 GO
