@@ -1,7 +1,7 @@
 {
   "version": "2.0",
   "name": "Test",
-  "id": "afa12ac9-ee14-483f-b996-1786466c4ab7",
+  "id": "906b0ffe-59ff-42b9-95c3-9d2fdd32ef99",
   "databaseType": "SqlServer",
   "development": {
     "scriptsFolder": "./schema-model"
