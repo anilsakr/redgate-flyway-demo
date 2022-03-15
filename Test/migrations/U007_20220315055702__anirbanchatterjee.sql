@@ -1,10 +1,34 @@
-SET QUOTED_IDENTIFIER ON
+﻿SET NUMERIC_ROUNDABORT OFF
 GO
-SET ANSI_NULLS ON
+SET ANSI_PADDING, ANSI_WARNINGS, CONCAT_NULL_YIELDS_NULL, ARITHABORT, QUOTED_IDENTIFIER, ANSI_NULLS ON
 GO
-
-
-CREATE   PROCEDURE [dbo].[uspGetBillOfMaterials]
+PRINT N'Dropping constraints from [ref].[Barlines]'
+GO
+ALTER TABLE [ref].[Barlines] DROP CONSTRAINT [PK__Barlines__A04047B59155B95C]
+GO
+PRINT N'Dropping constraints from [ref].[BuildPlanJobs]'
+GO
+ALTER TABLE [ref].[BuildPlanJobs] DROP CONSTRAINT [PK__BuildPla__056690E27CF2D7E0_OLD]
+GO
+PRINT N'Dropping constraints from [ref].[Barlines]'
+GO
+ALTER TABLE [ref].[Barlines] DROP CONSTRAINT [DF__Barlines__descri__658C0CBD]
+GO
+PRINT N'Dropping constraints from [ref].[BuildPlanJobs]'
+GO
+ALTER TABLE [ref].[BuildPlanJobs] DROP CONSTRAINT [DF__BuildPlan__descr__668030F6]
+GO
+PRINT N'Dropping [ref].[BuildPlanJobs]'
+GO
+DROP TABLE [ref].[BuildPlanJobs]
+GO
+PRINT N'Dropping [ref].[Barlines]'
+GO
+DROP TABLE [ref].[Barlines]
+GO
+PRINT N'Altering [dbo].[uspGetBillOfMaterials]'
+GO
+ALTER PROCEDURE [dbo].[uspGetBillOfMaterials]
     @StartProductID [int],
     @CheckDate [datetime]
 AS
@@ -38,12 +62,11 @@ BEGIN
     FROM [BOM_cte] b
     GROUP BY b.[ComponentID], b.[ComponentDesc], b.[ProductAssemblyID], b.[BOMLevel], b.[RecursionLevel], b.[StandardCost], b.[ListPrice]
     ORDER BY b.[BOMLevel], b.[ProductAssemblyID], b.[ComponentID]
-    OPTION (MAXRECURSION 20) 
+    OPTION (MAXRECURSION 25) 
 END;
 GO
-EXEC sp_addextendedproperty N'MS_Description', N'Stored procedure using a recursive query to return a multi-level bill of material for the specified ProductID.', 'SCHEMA', N'dbo', 'PROCEDURE', N'uspGetBillOfMaterials', NULL, NULL
+PRINT N'Dropping schemas'
 GO
-EXEC sp_addextendedproperty N'MS_Description', N'Input parameter for the stored procedure uspGetBillOfMaterials used to eliminate components not used after that date. Enter a valid date.', 'SCHEMA', N'dbo', 'PROCEDURE', N'uspGetBillOfMaterials', 'PARAMETER', N'@CheckDate'
-GO
-EXEC sp_addextendedproperty N'MS_Description', N'Input parameter for the stored procedure uspGetBillOfMaterials. Enter a valid ProductID from the Production.Product table.', 'SCHEMA', N'dbo', 'PROCEDURE', N'uspGetBillOfMaterials', 'PARAMETER', N'@StartProductID'
+IF SCHEMA_ID(N'ref') IS NOT NULL
+DROP SCHEMA [ref]
 GO
