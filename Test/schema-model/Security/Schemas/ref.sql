@@ -1,3 +1,0 @@
-CREATE SCHEMA [ref]
-AUTHORIZATION [admin]
-GO
