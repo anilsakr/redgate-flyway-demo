@@ -1,10 +1,12 @@
-SET QUOTED_IDENTIFIER ON
+﻿SET NUMERIC_ROUNDABORT OFF
 GO
-SET ANSI_NULLS ON
+SET ANSI_PADDING, ANSI_WARNINGS, CONCAT_NULL_YIELDS_NULL, ARITHABORT, QUOTED_IDENTIFIER, ANSI_NULLS ON
+GO
+PRINT N'Altering [dbo].[uspGetWhereUsedProductID]'
 GO
 
 
-CREATE   PROCEDURE [dbo].[uspGetWhereUsedProductID]
+ALTER   PROCEDURE [dbo].[uspGetWhereUsedProductID]
     @StartProductID [int],
     @CheckDate [datetime]
 AS
@@ -40,10 +42,4 @@ BEGIN
 
 	PRINT 'THIS IS A TEST';  
 END;
-GO
-EXEC sp_addextendedproperty N'MS_Description', N'Stored procedure using a recursive query to return all components or assemblies that directly or indirectly use the specified ProductID.', 'SCHEMA', N'dbo', 'PROCEDURE', N'uspGetWhereUsedProductID', NULL, NULL
-GO
-EXEC sp_addextendedproperty N'MS_Description', N'Input parameter for the stored procedure uspGetWhereUsedProductID used to eliminate components not used after that date. Enter a valid date.', 'SCHEMA', N'dbo', 'PROCEDURE', N'uspGetWhereUsedProductID', 'PARAMETER', N'@CheckDate'
-GO
-EXEC sp_addextendedproperty N'MS_Description', N'Input parameter for the stored procedure uspGetWhereUsedProductID. Enter a valid ProductID from the Production.Product table.', 'SCHEMA', N'dbo', 'PROCEDURE', N'uspGetWhereUsedProductID', 'PARAMETER', N'@StartProductID'
 GO
