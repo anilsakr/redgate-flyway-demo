@@ -1,12 +1,36 @@
-SET QUOTED_IDENTIFIER ON
+﻿SET NUMERIC_ROUNDABORT OFF
 GO
-SET ANSI_NULLS ON
+SET ANSI_PADDING, ANSI_WARNINGS, CONCAT_NULL_YIELDS_NULL, ARITHABORT, QUOTED_IDENTIFIER, ANSI_NULLS ON
+GO
+PRINT N'Altering [dbo].[uspPrintError]'
+GO
+
+
+-- uspPrintError prints error information about the error that caused 
+-- execution to jump to the CATCH block of a TRY...CATCH construct. 
+-- Should be executed from within the scope of a CATCH block otherwise 
+-- it will return without printing any error information.
+ALTER   PROCEDURE [dbo].[uspPrintError] 
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Print error information. 
+    PRINT 'Error ' + CONVERT(varchar(50), ERROR_NUMBER()) +
+          ', Severity ' + CONVERT(varchar(5), ERROR_SEVERITY()) +
+          ', State ' + CONVERT(varchar(5), ERROR_STATE()) + 
+          ', Procedure ' + ISNULL(ERROR_PROCEDURE(), '-') + 
+          ', Line ' + CONVERT(varchar(5), ERROR_LINE());
+    PRINT ERROR_MESSAGE() + 'THIS IS A TEST';
+END;
+GO
+PRINT N'Altering [dbo].[uspSearchCandidateResumes]'
 GO
 
 
 --A stored procedure which demonstrates integrated full text search
 
-CREATE   PROCEDURE [dbo].[uspSearchCandidateResumes]
+ALTER   PROCEDURE [dbo].[uspSearchCandidateResumes]
     @searchString [nvarchar](1000),   
     @useInflectional [bit]=0,
     @useThesaurus [bit]=0,
